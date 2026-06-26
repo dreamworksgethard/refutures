@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refutures AI — $RAI | Solana Perpetual Futures</title>
+  <meta name="description" content="Refutures AI — AI-powered perpetual futures trading for meme coins and utility tokens across the Solana ecosystem." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <div class="loader-ring"></div>
+      <img src="assets/logo.png" alt="" class="loader-logo" />
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+      <span class="loader-text">BOOTING AGENT SYSTEM</span>
+    </div>
+  </div>
+
+  <div class="ambient" aria-hidden="true">
+    <div class="mesh-gradient"></div>
+    <div class="ambient-orb orb-1"></div>
+    <div class="ambient-orb orb-2"></div>
+    <canvas id="particleCanvas"></canvas>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <header class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#home" class="nav-brand">
+        <img src="assets/logo.png" alt="Refutures AI" class="nav-logo" />
+        <div>
+          <span class="nav-name">Refutures</span>
+          <span class="nav-token">$RAI</span>
+        </div>
+      </a>
+      <nav class="nav-links">
+        <a href="#about" class="nav-link" data-section="about">About</a>
+        <a href="#how-it-works" class="nav-link" data-section="how-it-works">How It Works</a>
+        <a href="#tokenomics" class="nav-link" data-section="tokenomics">Tokenomics</a>
+        <a href="#roadmap" class="nav-link" data-section="roadmap">Roadmap</a>
+      </nav>
+      <a href="dapp/index.html" class="nav-cta">
+        <span>Launch DApp</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="https://x.com/RefuturesAI" class="nav-cta">
+        <span>X(Twitter)</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <section class="hero hero-centered" id="home">
+    <div class="hero-stack">
+      <div class="hero-badge anim" data-delay="0">
+        <span class="pulse-dot"></span>
+        AI-Powered Trading · Solana
+      </div>
+      <h1 class="hero-title anim" data-delay="1">
+        <span class="line">Refutures</span>
+        <span class="line accent">AI</span>
+      </h1>
+      <p class="hero-desc anim" data-delay="2">
+        An AI-powered trading platform specialized in perpetual futures for meme coins and utility tokens across the Solana ecosystem.
+      </p>
+      <p class="hero-ticker anim" data-delay="3">$RAI</p>
+      <div class="hero-chips anim" data-delay="4">
+        <span>Meme Coins</span>
+        <span>Utility Tokens</span>
+        <span>Perpetual Futures</span>
+        <span>Solana</span>
+      </div>
+      <div class="hero-btns anim" data-delay="5">
+        <a href="dapp/index.html" class="btn btn-glow">
+          <span>Launch DApp</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#about" class="btn btn-ghost">Learn More</a>
+      </div>
+    </div>
+    <div class="marquee anim" data-delay="6">
+      <div class="marquee-track">
+        <span>MEME COIN PERPS</span><span class="dot">◆</span>
+        <span>UTILITY TOKEN FUTURES</span><span class="dot">◆</span>
+        <span>AI AGENT SIGNALS</span><span class="dot">◆</span>
+        <span>SOLANA ECOSYSTEM</span><span class="dot">◆</span>
+        <span>PERPETUAL TRADING</span><span class="dot">◆</span>
+        <span>MEME COIN PERPS</span><span class="dot">◆</span>
+        <span>UTILITY TOKEN FUTURES</span><span class="dot">◆</span>
+        <span>AI AGENT SIGNALS</span><span class="dot">◆</span>
+        <span>SOLANA ECOSYSTEM</span><span class="dot">◆</span>
+        <span>PERPETUAL TRADING</span><span class="dot">◆</span>
+      </div>
+    </div>
+    <a href="#about" class="scroll-hint anim" data-delay="7">
+      <span>Scroll</span>
+      <div class="scroll-bar"><div class="scroll-fill"></div></div>
+    </a>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="container">
+      <header class="sec-head reveal">
+        <span class="sec-num">01</span>
+        <div>
+          <h2 class="sec-title">About <span class="accent">Refutures AI</span></h2>
+          <p class="sec-sub">Perpetual futures for meme coins and utility tokens on Solana.</p>
+        </div>
+        <div class="sec-line"><span></span></div>
+      </header>
+      <div class="about-split">
+        <div class="about-copy reveal-group">
+          <p class="about-lead reveal-child">Refutures AI is an AI-powered trading platform built for perpetual futures on meme coins and utility tokens across the Solana ecosystem — combining autonomous market intelligence with a professional-grade trading console.</p>
+          <p class="reveal-child">Whether you're trading the next viral memecoin or a established utility token, our agent reads on-chain perp markets, tracks funding and liquidations, and delivers real-time signals so you can move with precision.</p>
+          <p class="reveal-child">$RAI powers the platform — unlocking agent signal tiers, priority DApp access, and governance over the trading engine's evolution across Solana's fastest-moving markets.</p>
+          <div class="tag-row reveal-child">
+            <span class="tag">Meme Coin Perps</span>
+            <span class="tag">Utility Tokens</span>
+            <span class="tag">AI Agent</span>
+            <span class="tag">Solana</span>
+          </div>
+        </div>
+        <div class="about-card tilt-card reveal">
+          <div class="card-shine"></div>
+          <img src="assets/logo.png" alt="" class="about-logo" />
+          <h3>Refutures AI</h3>
+          <p class="card-meta">$RAI · Solana Perp Platform</p>
+          <div class="card-stats">
+            <div><span>Chain</span><strong>Solana</strong></div>
+            <div><span>Token</span><strong>$RAI</strong></div>
+            <div><span>Status</span><strong class="live">Live</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section section-alt" id="how-it-works">
+    <div class="container">
+      <header class="sec-head reveal">
+        <span class="sec-num">02</span>
+        <div>
+          <h2 class="sec-title">How It <span class="accent">Works</span></h2>
+          <p class="sec-sub">From $RAI to perpetual futures execution on Solana.</p>
+        </div>
+        <div class="sec-line"><span></span></div>
+      </header>
+      <div class="steps-grid reveal-group">
+        <article class="step-card reveal-child" data-tilt>
+          <div class="step-icon">01</div>
+          <h3>Acquire $RAI</h3>
+          <p>Buy $RAI on Solana. Hold to unlock agent access, signal priority, and ecosystem governance.</p>
+        </article>
+        <article class="step-card reveal-child" data-tilt>
+          <div class="step-icon">02</div>
+          <h3>Connect Wallet</h3>
+          <p>Link your Solana wallet to the Refutures DApp. Balance determines your agent tier and feature access.</p>
+        </article>
+        <article class="step-card reveal-child" data-tilt>
+          <div class="step-icon">03</div>
+          <h3>Agent Signals</h3>
+          <p>The trading agent scans meme coin and utility token perp markets across Drift, Jupiter, and Zeta — analyzing funding, OI, and liquidations in real time.</p>
+        </article>
+        <article class="step-card reveal-child" data-tilt>
+          <div class="step-icon">04</div>
+          <h3>Execute Trades</h3>
+          <p>Trade perpetual futures on meme coins and utility tokens through the agent console with AI-assisted sizing and risk scoring.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- TOKENOMICS -->
+  <section class="section" id="tokenomics">
+    <div class="container">
+      <header class="sec-head reveal">
+        <span class="sec-num">03</span>
+        <div>
+          <h2 class="sec-title">$RAI <span class="accent">Tokenomics</span></h2>
+          <p class="sec-sub">Transparent structure. Burned liquidity. Renounced ownership.</p>
+        </div>
+        <div class="sec-line"><span></span></div>
+      </header>
+      <div class="token-layout">
+        <div class="token-hero reveal">
+          <div class="token-hero-top">
+            <img src="assets/logo.png" alt="" />
+            <div>
+              <h3>Refutures AI</h3>
+              <span class="ticker">$RAI</span>
+            </div>
+          </div>
+          <div class="supply-block">
+            <span class="supply-lbl">Total Supply</span>
+            <span class="supply-num" data-count="1000000000" data-format="supply">0</span>
+          </div>
+        </div>
+        <div class="token-grid reveal-group">
+          <div class="token-box reveal-child"><span>Tax</span><strong>0/0</strong><small>Buy · Sell</small></div>
+          <div class="token-box reveal-child"><span>Dev Buy</span><strong>1 SOL</strong><small>Liquidity Pool</small></div>
+          <div class="token-box reveal-child"><span>LP</span><strong>Burned</strong><small>Safe</small></div>
+          <div class="token-box featured reveal-child"><span>Ownership</span><strong>Renounced</strong><small>Contract Renounced</small></div>
+        </div>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="section section-alt" id="roadmap">
+    <div class="container">
+      <header class="sec-head reveal">
+        <span class="sec-num">04</span>
+        <div>
+          <h2 class="sec-title">Product <span class="accent">Roadmap</span></h2>
+          <p class="sec-sub">Building the future of Solana futures intelligence.</p>
+        </div>
+        <div class="sec-line"><span></span></div>
+      </header>
+      <div class="roadmap">
+        <div class="road-line"><div class="road-progress" id="roadProgress"></div></div>
+        <div class="road-items reveal-group">
+          <article class="road-item reveal-child done">
+            <div class="road-dot"></div>
+            <div class="road-card">
+              <span class="road-phase">Phase 01 · Q1 2026</span>
+              <h3>Launch & Agent Core</h3>
+              <ul>
+                <li>$RAI token launch on Solana</li>
+                <li>Agent console DApp v1.0</li>
+                <li>SOL-PERP dashboard & signals</li>
+                <li>LP lock + ownership renounce</li>
+              </ul>
+              <span class="road-status">Complete</span>
+            </div>
+          </article>
+          <article class="road-item reveal-child active">
+            <div class="road-dot"></div>
+            <div class="road-card">
+              <span class="road-phase">Phase 02 · Q2 2026</span>
+              <h3>Agent Intelligence v2</h3>
+              <ul>
+                <li>Multi-venue aggregation (Drift, Jupiter, Zeta)</li>
+                <li>Agent auto-execute mode</li>
+                <li>Liquidation heatmap engine</li>
+                <li>$RAI holder signal tiers</li>
+              </ul>
+              <span class="road-status">In Progress</span>
+            </div>
+          </article>
+          <article class="road-item reveal-child">
+            <div class="road-dot"></div>
+            <div class="road-card">
+              <span class="road-phase">Phase 03 · Q3 2026</span>
+              <h3>Ecosystem Expansion</h3>
+              <ul>
+                <li>Mobile agent companion app</li>
+                <li>Cross-margin portfolio view</li>
+                <li>Agent governance via $RAI</li>
+                <li>Partnership integrations</li>
+              </ul>
+              <span class="road-status">Upcoming</span>
+            </div>
+          </article>
+          <article class="road-item reveal-child">
+            <div class="road-dot"></div>
+            <div class="road-card">
+              <span class="road-phase">Phase 04 · Q4 2026</span>
+              <h3>Full Autonomy</h3>
+              <ul>
+                <li>Fully autonomous agent trading</li>
+                <li>Custom agent strategy builder</li>
+                <li>Institutional API access</li>
+                <li>Multi-asset Solana perps</li>
+              </ul>
+              <span class="road-status">Planned</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-box reveal">
+      <div class="cta-glow"></div>
+      <h2>Ready to trade <span class="accent">Solana perps</span>?</h2>
+      <p>Launch the Refutures AI DApp and trade meme coins and utility tokens with autonomous market intelligence.</p>
+      <div class="cta-btns">
+        <a href="dapp/index.html" class="btn btn-glow btn-lg">
+          <span>Launch DApp</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="https://x.com/RefuturesAI" class="btn btn-ghost btn-lg">X (Twitter)</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <img src="assets/logo.png" alt="" />
+        <div>
+          <strong>Refutures AI</strong>
+          <span>$RAI · Solana Perp Platform</span>
+        </div>
+      </div>
+      <nav class="footer-nav">
+        <a href="#about">About</a>
+        <a href="#how-it-works">How It Works</a>
+        <a href="#tokenomics">Tokenomics</a>
+        <a href="#roadmap">Roadmap</a>
+        <a href="dapp/index.html">DApp</a>
+        <a href="https://x.com/RefuturesAI">X (Twitter)</a>
+      </nav>
+      <p class="footer-note">Not financial advice. Trade at your own risk.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

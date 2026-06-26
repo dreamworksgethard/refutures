@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Refutures AI — Solana Futures Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grid-bg" aria-hidden="true"></div>
+
+  <!-- Top HUD Bar -->
+  <header class="hud-bar">
+    <div class="hud-left">
+      <img src="assets/logo.png" alt="Refutures AI" class="hud-logo" />
+      <div class="hud-brand">
+        <span class="brand-name">REFUTURES</span>
+        <span class="brand-sub">SOLANA AGENT · FUTURES</span>
+      </div>
+    </div>
+    <div class="hud-center">
+      <div class="sol-ticker">
+        <span class="ticker-label">SOL / USD</span>
+        <span class="ticker-price" id="solPrice">$148.42</span>
+        <span class="ticker-change positive" id="solChange">+3.12%</span>
+      </div>
+    </div>
+    <div class="hud-right">
+      <div class="hud-stat">
+        <span class="stat-label">PORTFOLIO</span>
+        <span class="stat-value">$124,580</span>
+      </div>
+      <div class="hud-stat">
+        <span class="stat-label">P&L 24H</span>
+        <span class="stat-value positive">+$3,241</span>
+      </div>
+      <div class="hud-clock" id="clock">00:00:00</div>
+    </div>
+  </header>
+
+  <!-- Agent Command Layout -->
+  <main class="menu-container">
+    <!-- Left Agent Nav -->
+    <nav class="menu-panel" aria-label="Agent navigation">
+      <div class="menu-header">
+        <span class="menu-tag">// AGENT INTERFACE</span>
+        <div class="menu-line"></div>
+      </div>
+      <ul class="menu-list" role="tablist">
+        <li class="menu-item active" data-panel="dashboard" role="tab" aria-selected="true">
+          <span class="menu-index">01</span>
+          <span class="menu-label">DASHBOARD</span>
+          <span class="menu-arrow">▶</span>
+        </li>
+        <li class="menu-item" data-panel="trade" role="tab" aria-selected="false">
+          <span class="menu-index">02</span>
+          <span class="menu-label">TRADE FUTURES</span>
+          <span class="menu-arrow">▶</span>
+        </li>
+        <li class="menu-item" data-panel="positions" role="tab" aria-selected="false">
+          <span class="menu-index">03</span>
+          <span class="menu-label">POSITIONS</span>
+          <span class="menu-arrow">▶</span>
+        </li>
+        <li class="menu-item" data-panel="agent" role="tab" aria-selected="false">
+          <span class="menu-index">04</span>
+          <span class="menu-label">AGENT CONSOLE</span>
+          <span class="menu-arrow">▶</span>
+        </li>
+        <li class="menu-item" data-panel="analytics" role="tab" aria-selected="false">
+          <span class="menu-index">05</span>
+          <span class="menu-label">ANALYTICS</span>
+          <span class="menu-arrow">▶</span>
+        </li>
+        <li class="menu-item" data-panel="portfolio" role="tab" aria-selected="false">
+          <span class="menu-index">06</span>
+          <span class="menu-label">PORTFOLIO</span>
+          <span class="menu-arrow">▶</span>
+        </li>
+        <li class="menu-item" data-panel="settings" role="tab" aria-selected="false">
+          <span class="menu-index">07</span>
+          <span class="menu-label">SETTINGS</span>
+          <span class="menu-arrow">▶</span>
+        </li>
+      </ul>
+      <div class="menu-footer">
+        <span class="key-hint"><kbd>↑↓</kbd> NAVIGATE</span>
+        <span class="key-hint"><kbd>ENTER</kbd> SELECT</span>
+      </div>
+    </nav>
+
+    <!-- Center Content Panel -->
+    <section class="content-panel">
+      <!-- Dashboard Panel -->
+      <div class="panel active" id="panel-dashboard" role="tabpanel">
+        <div class="panel-header">
+          <h1 class="panel-title">DASHBOARD</h1>
+          <p class="panel-desc">Real-time SOL perpetual futures on Solana</p>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="card-label">OPEN INTEREST</span>
+            <span class="card-value">$892M</span>
+            <span class="card-sub positive">↑ 18.2%</span>
+          </div>
+          <div class="stat-card">
+            <span class="card-label">FUNDING RATE</span>
+            <span class="card-value">0.0082%</span>
+            <span class="card-sub">8h avg</span>
+          </div>
+          <div class="stat-card">
+            <span class="card-label">24H VOLUME</span>
+            <span class="card-value">$2.4B</span>
+            <span class="card-sub positive">↑ 5.1%</span>
+          </div>
+          <div class="stat-card">
+            <span class="card-label">LONG / SHORT</span>
+            <span class="card-value">58 / 42</span>
+            <span class="card-sub">ratio</span>
+          </div>
+        </div>
+        <div class="chart-area">
+          <div class="chart-header">
+            <span>SOL-PERP · 1H</span>
+            <div class="chart-legend">
+              <span class="legend-item"><span class="dot magenta"></span> Price</span>
+              <span class="legend-item"><span class="dot pink"></span> Agent Signal</span>
+            </div>
+          </div>
+          <canvas id="priceChart" width="800" height="220"></canvas>
+        </div>
+        <div class="quick-actions">
+          <button class="action-btn primary">LONG SOL</button>
+          <button class="action-btn secondary">SHORT SOL</button>
+          <button class="action-btn ghost">VIEW ORDERBOOK</button>
+        </div>
+      </div>
+
+      <!-- Trade Panel -->
+      <div class="panel" id="panel-trade" role="tabpanel">
+        <div class="panel-header">
+          <h1 class="panel-title">TRADE FUTURES</h1>
+          <p class="panel-desc">Execute SOL perpetuals on Solana with agent-assisted sizing</p>
+        </div>
+        <div class="trade-layout">
+          <div class="trade-form">
+            <div class="form-group">
+              <label>CONTRACT</label>
+              <select class="form-input">
+                <option>SOL-PERP · Drift</option>
+                <option>SOL-PERP · Jupiter</option>
+                <option>SOL-PERP · Zeta</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>SIDE</label>
+                <div class="toggle-group">
+                  <button class="toggle-btn active long">LONG</button>
+                  <button class="toggle-btn short">SHORT</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>LEVERAGE</label>
+                <input type="range" class="leverage-slider" min="1" max="50" value="10" id="leverageSlider" />
+                <span class="leverage-value" id="leverageValue">10x</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>SIZE (SOL)</label>
+              <input type="number" class="form-input" value="25" step="1" />
+            </div>
+            <div class="form-group">
+              <label>ORDER TYPE</label>
+              <select class="form-input">
+                <option>Market</option>
+                <option>Limit</option>
+                <option>Stop Market</option>
+                <option>Trailing Stop</option>
+              </select>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>TAKE PROFIT</label>
+                <input type="text" class="form-input" placeholder="$158" />
+              </div>
+              <div class="form-group">
+                <label>STOP LOSS</label>
+                <input type="text" class="form-input" placeholder="$138" />
+              </div>
+            </div>
+            <div class="order-summary">
+              <div class="summary-row"><span>Notional Value</span><span>$3,710.50</span></div>
+              <div class="summary-row"><span>Margin Required</span><span>$371.05</span></div>
+              <div class="summary-row"><span>Est. Liq. Price</span><span class="negative">$132.40</span></div>
+              <div class="summary-row"><span>Agent Risk Score</span><span class="positive">LOW</span></div>
+            </div>
+            <button class="action-btn primary full">EXECUTE ORDER</button>
+          </div>
+          <div class="orderbook">
+            <div class="ob-header">ORDER BOOK</div>
+            <div class="ob-asks" id="orderbookAsks"></div>
+            <div class="ob-spread">
+              <span>SPREAD</span>
+              <span>$0.02</span>
+            </div>
+            <div class="ob-bids" id="orderbookBids"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Positions Panel -->
+      <div class="panel" id="panel-positions" role="tabpanel">
+        <div class="panel-header">
+          <h1 class="panel-title">POSITIONS</h1>
+          <p class="panel-desc">Active SOL futures positions on Solana</p>
+        </div>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>CONTRACT</th>
+                <th>SIDE</th>
+                <th>SIZE</th>
+                <th>ENTRY</th>
+                <th>MARK</th>
+                <th>LEV</th>
+                <th>UNREALIZED P&L</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>SOL-PERP</td>
+                <td><span class="badge long">LONG</span></td>
+                <td>120 SOL</td>
+                <td>$142.50</td>
+                <td>$148.42</td>
+                <td>15x</td>
+                <td class="positive">+$710.40</td>
+                <td><button class="table-btn">CLOSE</button></td>
+              </tr>
+              <tr>
+                <td>SOL-PERP</td>
+                <td><span class="badge short">SHORT</span></td>
+                <td>50 SOL</td>
+                <td>$152.00</td>
+                <td>$148.42</td>
+                <td>10x</td>
+                <td class="positive">+$179.00</td>
+                <td><button class="table-btn">CLOSE</button></td>
+              </tr>
+              <tr>
+                <td>SOL-PERP</td>
+                <td><span class="badge long">LONG</span></td>
+                <td>80 SOL</td>
+                <td>$138.20</td>
+                <td>$148.42</td>
+                <td>5x</td>
+                <td class="positive">+$817.60</td>
+                <td><button class="table-btn">CLOSE</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="margin-panel">
+          <div class="margin-stat">
+            <span class="card-label">TOTAL MARGIN</span>
+            <span class="card-value">$8,420</span>
+          </div>
+          <div class="margin-stat">
+            <span class="card-label">MARGIN RATIO</span>
+            <span class="card-value positive">342%</span>
+          </div>
+          <div class="margin-stat">
+            <span class="card-label">AVAILABLE</span>
+            <span class="card-value">$116,160</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Console Panel -->
+      <div class="panel" id="panel-agent" role="tabpanel">
+        <div class="panel-header">
+          <h1 class="panel-title">AGENT CONSOLE</h1>
+          <p class="panel-desc">Refutures trading agent — autonomous SOL futures intelligence</p>
+        </div>
+        <div class="ai-status">
+          <div class="ai-pulse"></div>
+          <span>AGENT ONLINE · SOLANA MAINNET · CONFIDENCE 87%</span>
+        </div>
+        <div class="agent-terminal">
+          <div class="terminal-line agent"><span class="term-prompt">agent@refutures</span> Scanning Drift + Jupiter SOL-PERP markets...</div>
+          <div class="terminal-line"><span class="term-time">14:32:08</span> Funding rate neutral across Solana perp venues</div>
+          <div class="terminal-line agent"><span class="term-prompt">agent@refutures</span> Bullish bias detected — breakout above $146.20</div>
+          <div class="terminal-line"><span class="term-time">14:31:42</span> OI rising +14% on Drift SOL-PERP (24h)</div>
+          <div class="terminal-line agent"><span class="term-prompt">agent@refutures</span> Risk alert: liquidation cluster at $140.50</div>
+          <div class="terminal-line"><span class="term-time">14:30:15</span> Recommended action: reduce leverage on shorts</div>
+          <div class="terminal-line agent"><span class="term-prompt">agent@refutures</span> Target range $152–$158 · timeframe 4H</div>
+          <div class="terminal-cursor"></div>
+        </div>
+        <div class="signals-grid">
+          <div class="signal-card bullish">
+            <div class="signal-header">
+              <span class="signal-type">PRIMARY SIGNAL</span>
+              <span class="signal-time">2m ago</span>
+            </div>
+            <h3 class="signal-action">BULLISH BIAS</h3>
+            <p class="signal-detail">Momentum breakout detected above $146.20 resistance on Drift. Funding neutral, OI rising. Target $152–$158.</p>
+            <div class="signal-meta">
+              <span>Confidence: <strong>87%</strong></span>
+              <span>Timeframe: <strong>4H</strong></span>
+            </div>
+          </div>
+          <div class="signal-card neutral">
+            <div class="signal-header">
+              <span class="signal-type">RISK ALERT</span>
+              <span class="signal-time">18m ago</span>
+            </div>
+            <h3 class="signal-action">VOLATILITY SPIKE</h3>
+            <p class="signal-detail">IV percentile at 72. Consider reducing leverage on open longs. Liquidation cluster at $140.50.</p>
+            <div class="signal-meta">
+              <span>Severity: <strong>MEDIUM</strong></span>
+              <span>Timeframe: <strong>1H</strong></span>
+            </div>
+          </div>
+          <div class="signal-card bearish">
+            <div class="signal-header">
+              <span class="signal-type">SECONDARY</span>
+              <span class="signal-time">1h ago</span>
+            </div>
+            <h3 class="signal-action">DIVERGENCE WATCH</h3>
+            <p class="signal-detail">RSI bearish divergence on 1D. Not actionable yet — monitor $144.80 support for confirmation.</p>
+            <div class="signal-meta">
+              <span>Confidence: <strong>62%</strong></span>
+              <span>Timeframe: <strong>1D</strong></span>
+            </div>
+          </div>
+        </div>
+        <div class="ai-metrics">
+          <div class="ai-metric">
+            <span class="metric-label">MODEL ACCURACY (30D)</span>
+            <div class="metric-bar"><div class="metric-fill" style="width: 78%"></div></div>
+            <span class="metric-val">78%</span>
+          </div>
+          <div class="ai-metric">
+            <span class="metric-label">SIGNAL WIN RATE</span>
+            <div class="metric-bar"><div class="metric-fill" style="width: 71%"></div></div>
+            <span class="metric-val">71%</span>
+          </div>
+          <div class="ai-metric">
+            <span class="metric-label">RISK ADJUSTMENT</span>
+            <div class="metric-bar"><div class="metric-fill" style="width: 92%"></div></div>
+            <span class="metric-val">92%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Analytics Panel -->
+      <div class="panel" id="panel-analytics" role="tabpanel">
+        <div class="panel-header">
+          <h1 class="panel-title">ANALYTICS</h1>
+          <p class="panel-desc">Solana on-chain futures market structure</p>
+        </div>
+        <div class="analytics-grid">
+          <div class="analytics-card">
+            <h3>LIQUIDATION HEATMAP</h3>
+            <div class="heatmap">
+              <div class="heat-row"><span>$165</span><div class="heat-bar" style="--w: 72%"></div><span>$18M</span></div>
+              <div class="heat-row"><span>$160</span><div class="heat-bar" style="--w: 58%"></div><span>$14M</span></div>
+              <div class="heat-row"><span>$155</span><div class="heat-bar" style="--w: 42%"></div><span>$9M</span></div>
+              <div class="heat-row"><span>$150</span><div class="heat-bar" style="--w: 28%"></div><span>$6M</span></div>
+              <div class="heat-row current"><span>$148</span><div class="heat-bar" style="--w: 15%"></div><span>NOW</span></div>
+              <div class="heat-row"><span>$145</span><div class="heat-bar" style="--w: 48%"></div><span>$11M</span></div>
+              <div class="heat-row"><span>$140</span><div class="heat-bar" style="--w: 68%"></div><span>$16M</span></div>
+              <div class="heat-row"><span>$135</span><div class="heat-bar" style="--w: 85%"></div><span>$22M</span></div>
+            </div>
+          </div>
+          <div class="analytics-card">
+            <h3>FUNDING RATE HISTORY</h3>
+            <canvas id="fundingChart" width="400" height="200"></canvas>
+          </div>
+          <div class="analytics-card wide">
+            <h3>SOLANA PERP OI</h3>
+            <div class="exchange-bars">
+              <div class="ex-bar"><span>Drift</span><div class="ex-fill" style="width: 42%"></div><span>42%</span></div>
+              <div class="ex-bar"><span>Jupiter</span><div class="ex-fill" style="width: 28%"></div><span>28%</span></div>
+              <div class="ex-bar"><span>Zeta</span><div class="ex-fill" style="width: 18%"></div><span>18%</span></div>
+              <div class="ex-bar"><span>Mango</span><div class="ex-fill" style="width: 8%"></div><span>8%</span></div>
+              <div class="ex-bar"><span>Other</span><div class="ex-fill" style="width: 4%"></div><span>4%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portfolio Panel -->
+      <div class="panel" id="panel-portfolio" role="tabpanel">
+        <div class="panel-header">
+          <h1 class="panel-title">PORTFOLIO</h1>
+          <p class="panel-desc">Account equity, performance, and allocation</p>
+        </div>
+        <div class="portfolio-overview">
+          <div class="equity-card">
+            <span class="card-label">TOTAL EQUITY</span>
+            <span class="equity-value">$124,580.42</span>
+            <span class="equity-change positive">+$3,241.18 (24H)</span>
+          </div>
+          <div class="perf-grid">
+            <div class="perf-item"><span>7D</span><span class="positive">+5.8%</span></div>
+            <div class="perf-item"><span>30D</span><span class="positive">+18.2%</span></div>
+            <div class="perf-item"><span>90D</span><span class="positive">+42.7%</span></div>
+            <div class="perf-item"><span>ALL TIME</span><span class="positive">+128.4%</span></div>
+          </div>
+        </div>
+        <div class="allocation">
+          <h3>ALLOCATION</h3>
+          <div class="alloc-bars">
+            <div class="alloc-item">
+              <span>SOL-PERP Long</span>
+              <div class="alloc-bar"><div class="alloc-fill magenta" style="width: 45%"></div></div>
+              <span>45%</span>
+            </div>
+            <div class="alloc-item">
+              <span>SOL-PERP Short</span>
+              <div class="alloc-bar"><div class="alloc-fill pink" style="width: 18%"></div></div>
+              <span>18%</span>
+            </div>
+            <div class="alloc-item">
+              <span>SOL Staked</span>
+              <div class="alloc-bar"><div class="alloc-fill light" style="width: 12%"></div></div>
+              <span>12%</span>
+            </div>
+            <div class="alloc-item">
+              <span>USDC Reserve</span>
+              <div class="alloc-bar"><div class="alloc-fill dim" style="width: 25%"></div></div>
+              <span>25%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Panel -->
+      <div class="panel" id="panel-settings" role="tabpanel">
+        <div class="panel-header">
+          <h1 class="panel-title">SETTINGS</h1>
+          <p class="panel-desc">Configure agent and Solana trading preferences</p>
+        </div>
+        <div class="settings-grid">
+          <div class="setting-group">
+            <h3>TRADING</h3>
+            <div class="setting-row">
+              <span>Default Leverage</span>
+              <select class="form-input small"><option>5x</option><option selected>10x</option><option>20x</option></select>
+            </div>
+            <div class="setting-row">
+              <span>Auto Stop-Loss</span>
+              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
+            </div>
+          </div>
+          <div class="setting-group">
+            <h3>AGENT</h3>
+            <div class="setting-row">
+              <span>Agent Auto-Execute</span>
+              <label class="switch"><input type="checkbox" /><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span>Agent Position Sizing</span>
+              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span>Agent Risk Guard</span>
+              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
+            </div>
+          </div>
+          <div class="setting-group">
+            <h3>NOTIFICATIONS</h3>
+            <div class="setting-row">
+              <span>Agent Signal Alerts</span>
+              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span>Liquidation Warnings</span>
+              <label class="switch"><input type="checkbox" checked /><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span>Price Alerts</span>
+              <label class="switch"><input type="checkbox" /><span class="slider"></span></label>
+            </div>
+          </div>
+          <div class="setting-group">
+            <h3>DISPLAY</h3>
+            <div class="setting-row">
+              <span>Scanline Effect</span>
+              <label class="switch"><input type="checkbox" checked id="scanlineToggle" /><span class="slider"></span></label>
+            </div>
+            <div class="setting-row">
+              <span>Sound Effects</span>
+              <label class="switch"><input type="checkbox" /><span class="slider"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Right Info Panel -->
+    <aside class="info-panel">
+      <div class="info-card">
+        <img src="assets/logo.png" alt="" class="info-logo" aria-hidden="true" />
+        <h2 class="info-title">REFUTURES AI</h2>
+        <p class="info-tagline">Autonomous Solana futures agent — trade SOL perps with intelligence.</p>
+      </div>
+      <div class="info-card agent-feed">
+        <h3 class="info-section-title">AGENT FEED</h3>
+        <ul class="agent-log">
+          <li><span class="log-time">14:32</span><span class="log-msg">Scanning Drift SOL-PERP...</span></li>
+          <li><span class="log-time">14:31</span><span class="log-msg agent">Bullish signal @ $146.20</span></li>
+          <li><span class="log-time">14:28</span><span class="log-msg">OI +14% on Jupiter</span></li>
+          <li><span class="log-time">14:25</span><span class="log-msg agent">Risk: liq cluster $140</span></li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3 class="info-section-title">MARKET PULSE</h3>
+        <ul class="pulse-list">
+          <li><span class="pulse-dot green"></span> SOL perp OI rising</li>
+          <li><span class="pulse-dot yellow"></span> Funding turning positive</li>
+          <li><span class="pulse-dot magenta"></span> Agent: accumulation phase</li>
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3 class="info-section-title">RECENT ACTIVITY</h3>
+        <ul class="activity-list">
+          <li><time>14:32</time> Opened LONG 25 SOL @ $146.10</li>
+          <li><time>13:15</time> Agent: bullish breakout</li>
+          <li><time>11:48</time> Closed SHORT +$420 P&L</li>
+          <li><time>09:22</time> Funding collected +$12.40</li>
+        </ul>
+      </div>
+      <div class="info-card mini-stats">
+        <div><span>WIN RATE</span><strong>68%</strong></div>
+        <div><span>TRADES</span><strong>342</strong></div>
+        <div><span>SHARPE</span><strong>2.14</strong></div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Bottom Bar -->
+  <footer class="bottom-bar">
+    <div class="bottom-left">
+      <span class="version">REFUTURES AI v2.4.1</span>
+      <span class="separator">|</span>
+      <a href="../index.html" class="home-link">← WEBSITE</a>
+      <span class="separator">|</span>
+      <span class="connection"><span class="conn-dot"></span> CONNECTED · SOLANA MAINNET</span>
+    </div>
+    <div class="bottom-right">
+      <span class="ticker-scroll" id="tickerScroll">SOL $148.42 ↑ · JUP $0.82 ↑ · RAY $2.14 ↑ · BONK $0.00002 ↑ · WIF $1.94 ↓ · PYTH $0.38 ↑</span>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
